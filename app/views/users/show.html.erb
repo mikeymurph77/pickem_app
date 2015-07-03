@@ -4,7 +4,7 @@ User Show Page
   <%= link_to "Edit Profile", edit_user_path(@user), method: :get %>
 <% end %>
 
-<div>PUT PHOTO HERE</div>
+<div><%= image_tag(@user.avatar_url(:thumb).to_s) %></div>
 <%= @user.first_name %>
 
 <h2>Record</h2>

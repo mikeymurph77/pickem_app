@@ -1,5 +1,9 @@
 <%= form_for @user do |form| %>
   <div>
+    <%= form.label :avatar, "Upload Profile Photo" %>
+    <%= form.file_field :avatar %>
+  </div>
+  <div>
     <%= form.label :username %>
     <%= form.text_field :username %>
   </div>
