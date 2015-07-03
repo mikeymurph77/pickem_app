@@ -10,7 +10,7 @@
 <h1>Pick'em League</h1>
 
 <% if signed_in? %>
-	<span>Hello <%= current_user.username %></span>
+	<span>Hello <%= link_to current_user.username, user_path(current_user), method: :get %></span>
 	<span><%= button_to "Sign out", session_path, method: :delete %></span>
 <% end %>
 
