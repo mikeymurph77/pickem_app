@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
-  before_action :set_user, only: [:show, :edit]
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
 
@@ -22,8 +22,15 @@ class UsersController < ApplicationController
   end
 
   def edit
-    p "HELLLLOOOOOO"
   end
+
+  def update
+      if @user.update(user_params)
+      redirect_to user_path(current_user)
+    else
+      render :edit
+    end
+  end  
 
   private
 
@@ -32,7 +39,7 @@ class UsersController < ApplicationController
   end  
 
   def user_params
-    params.require(:user).permit(:email, :username, :password)
+    params.require(:user).permit(:email, :username, :password, :first_name)
   end
 end
 
