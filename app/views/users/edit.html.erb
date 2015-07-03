@@ -14,7 +14,11 @@
   <div>
     <%= form.label :email %>
     <%= form.email_field :email %>
-  </div>  
+  </div>
+  <div>
+    <%= form.label :trash_talk, "Talk some trash for all to see" %>
+    <%= form.text_area :trash_talk %>
+  </div>
 
   <%= form.submit %>
 <% end %>

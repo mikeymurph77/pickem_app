@@ -7,6 +7,8 @@ User Show Page
 <div><%= image_tag(@user.avatar_url(:thumb).to_s) %></div>
 <%= @user.first_name %>
 
+<h3>Trash Talk: <%= @user.trash_talk %></h3>
+
 <h2>Record</h2>
 
 <h2>Picks Last Week</h2>
