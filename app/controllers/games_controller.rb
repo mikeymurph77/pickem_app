@@ -3,7 +3,7 @@ class GamesController < ApplicationController
     @weeks = Week.all
     #will make a current_week method... this is temp.
     @first_week = Week.find_by_week_number(1).id
-    @games = Game.where(week_game_id: @first_week)
+    @games = Game.where(week_game_id: @first_week).order(:gametime_start)
   end 
 
   def new
