@@ -1,0 +1,66 @@
+<% @games.each do |game| %>
+  <div>
+    <div class="game_matchup" data-game-id=<%= game.id %>>
+      <% pick_away = Pick.find_by(game_id: game.id, picked_team_id: game.away_team_id) %>
+      <% pick_home = Pick.find_by(game_id: game.id, picked_team_id: game.home_team_id) %>
+      <span class="pick_team <%= 'selected_team_class' if pick_away.present? %>" id="away_team_pick" data-team-id=<%= game.away_team_id %>>
+        <%= Team.find(game.away_team_id).name %>  
+      </span>
+      vs. 
+      <span class="pick_team <%= 'selected_team_class' if pick_home.present? %>" id="home_team_pick" data-team-id=<%= game.home_team_id %>>
+        <%= Team.find(game.home_team_id).name %> 
+      </span>
+      <span class="clear_pick">X</span>
+    </div>
+    <div>
+      <span><%= game.gametime_start.strftime("%m/%d at %I:%M%p") %></span>
+       <span>@ <%= Team.find(game.home_team_id).city %></span>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(".pick_team").click(function(){
+      var selectedTeam = $(this).data("team-id"),
+          gameMatchup_id = $(this).parent(".game_matchup").data("game-id");
+
+      $.ajax({
+        type: "POST",
+        url: "picks/set_game_pick.json",
+        data: {
+          selected_team: selectedTeam,
+          game_matchup_id: gameMatchup_id
+        },
+        success: function(json){
+          var game = $(".game_matchup[data-game-id=" + json.game + "]"),
+              team = game.find(".pick_team[data-team-id=" + json.team + "]");
+
+          team.siblings(".pick_team").removeClass("selected_team_class");
+          team.addClass("selected_team_class");    
+        },
+        error:function(){
+          alert("Invalid Pick");
+        }
+      });  
+  });
+
+  $(".clear_pick").click(function(){
+    var gameMatchup_id = $(this).parent(".game_matchup").data("game-id");
+
+    $.ajax({
+        type: "POST",
+        url: "picks/clear_pick.json",
+        data: {
+          game_matchup_id: gameMatchup_id
+        },
+        success: function(json){
+          var game = $(".game_matchup[data-game-id=" + json.game + "]")
+
+          game.find(".pick_team").removeClass("selected_team_class");
+        },
+        error:function(){
+          alert("Cannot Clear Pick at this time");
+        }
+      });  
+  });
+</script>

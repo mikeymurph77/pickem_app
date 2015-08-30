@@ -1,0 +1,33 @@
+<% @weeks.each do |week| %>
+  <span class="week_number_select" data-week=<%= week.week_number %>><%= week.week_number %></span>
+<% end %>
+
+<div>
+  <%= link_to "Create a Game", new_game_path %>
+</div>
+
+<h2>Week <%= @first_week %> Games:</h2>
+
+<div class="games_this_week">
+  <%= render partial: "games_this_week" %>
+</div>
+
+<script>
+  // $( document ).ready(function() {
+
+  //   $(".week_number_select").click(function(){
+  //     var week = $(this).data("week");
+  //     $.ajax({
+  //       type: "GET",
+  //       url: "games/show_games_week.js",
+  //       data: week,
+  //       success: function(){
+  //         $(".games_this_week").empty().html("<%= escape_javascript(render partial: 'games_this_week', locals: { games: @games } ) %>"); 
+  //       },
+  //       error:function(){
+  //         alert("Error");
+  //       }
+  //     });
+  //   })
+  // });  
+</script>

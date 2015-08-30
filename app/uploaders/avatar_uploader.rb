@@ -16,6 +16,14 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  version :logo_snip do
+    process resize_to_fill: [100, 50]
+  end
+
+  version :logo_feature do
+    process resize_to_fill: [400, 200]
+  end
+
   version :snippet do
     process resize_to_fill: [100, 100]
   end

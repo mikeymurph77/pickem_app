@@ -1,0 +1,22 @@
+Create a New Team Form:
+
+<%= form_for @team do |f| %>
+  <div class="form_field">
+    <%= f.label :name, "Team Name" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :city, "Team City" %>
+    <%= f.text_field :city %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :team_logo, "Upload Team Logo" %>
+    <%= f.file_field :team_logo %>
+  </div>
+
+  <div class="form_submit">
+    <%= f.submit %>
+  </div>
+<% end %>

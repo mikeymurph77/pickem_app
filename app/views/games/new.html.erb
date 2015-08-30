@@ -1,0 +1,33 @@
+<h2>Add Game Details</h2>
+
+<%= form_for @game do |f| %>
+
+  <div class="form_field">
+    <%= f.label :away_team_id %>
+    <%= f.collection_select :away_team_id, @teams, :id, :name, { include_blank: "Select Home Team" } %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :home_team_id %>
+    <%= f.collection_select :home_team_id, @teams, :id, :name, { include_blank: "Select Home Team" } %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :week_game_id %>
+    <%= f.collection_select :week_game_id, @weeks, :id, :week_number, { include_blank: "Select Week" } %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :gametime_start %>
+    <%= f.datetime_select :gametime_start %>
+  </div>
+
+  <div class="form_fields">
+  <%= f.submit %>
+  </div>
+
+<% end %>  
+
+<div>
+  <%= link_to "Cancel", games_path %>
+</div>

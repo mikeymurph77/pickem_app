@@ -1,0 +1,17 @@
+List teams here
+
+<% @teams.each do |team| %>
+
+  <div class="team_list_item">
+    <div>
+      <%= link_to image_tag(team.team_logo_url(:logo_snip).to_s), team %>
+    </div>
+    <div>  
+      <%= link_to team.name, team %>    
+    </div>
+    <div>
+      <!-- Display Record Here For now... this is dummy code -->
+      Record: 0-0-0
+    </div>
+  </div>
+<% end %>  
