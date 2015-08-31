@@ -29,9 +29,6 @@
           gameStartTime = gameTimeDetails.data("gametime-start"),
           timeNow = gameTimeDetails.data("timenow");
 
-          console.log(gameStartTime);
-          console.log(timeNow);
-
       $.ajax({
         type: "POST",
         url: "picks/set_game_pick.json",

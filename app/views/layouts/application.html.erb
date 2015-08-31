@@ -7,16 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<h1><%= link_to "Pick'em League", dashboard_path %></h1>
+  <h1><%= link_to "Pick'em League", dashboard_path %></h1>
 
-<% if signed_in? %>
-  <div class="user_nav" style="float: right">
-  	<span>Hello <%= link_to current_user.username, user_path(current_user), method: :get %></span>
-  	<span style="float: right"><%= button_to "Sign out", session_path, method: :delete %></span>
-  </div>  
-<% end %>
+  <% if signed_in? %>
+    <div class="user_nav" style="float: right">
+    	<span>Hello <%= link_to current_user.username, user_path(current_user), method: :get %></span>
+    	<span style="float: right"><%= button_to "Sign out", session_path, method: :delete %></span>
+    </div>  
+  <% end %>
 
-<%= yield %>
+  <%= yield %>
+
+  <%= render "flash_msg" %>
 
 </body>
 </html>

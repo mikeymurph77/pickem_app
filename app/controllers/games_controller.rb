@@ -17,6 +17,7 @@ class GamesController < ApplicationController
     if game.save
       redirect_to games_path
     else
+      flash[:error] = "Username and Password do not match...you suck"
       render :new
     end
   end
