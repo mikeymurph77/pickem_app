@@ -3,5 +3,13 @@
     <%= f.label :week_number %>
     <%= f.number_field :week_number %>
   </div>
+  <div class="form_field">
+    <%= f.label :week_start %>
+    <%= f.date_field :week_start %>
+  </div>
+  <div class="form_field">
+    <%= f.label :week_end %>
+    <%= f.date_field :week_end %>
+  </div>
   <%= f.submit %>
 <% end %>
