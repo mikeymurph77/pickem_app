@@ -8,26 +8,29 @@
 
 <h2>Week <%= @week %> Games:</h2>
 
-<div class="games_this_week">
+<div id="games_this_week">
   <%= render partial: "games_this_week" %>
 </div>
 
 <script>
-  // $( document ).ready(function() {
+  $( document ).ready(function() {
+    $(".week_number_select").click(function(){
+      var week = $(this).data("week");
 
-  //   $(".week_number_select").click(function(){
-  //     var week = $(this).data("week");
-  //     $.ajax({
-  //       type: "GET",
-  //       url: "games/show_games_week.js",
-  //       data: week,
-  //       success: function(){
-  //         $(".games_this_week").empty().html("<%= escape_javascript(render partial: 'games_this_week', locals: { games: @games } ) %>"); 
-  //       },
-  //       error:function(){
-  //         alert("Error");
-  //       }
-  //     });
-  //   })
-  // });  
+      $.ajax({
+        type: "GET",
+        url: "games/show_games_week",
+        data: {
+          week_number: week
+        },
+        success: function(partial){
+          console.log(partial.games);
+          $("#games_this_week").empty().html(partial); 
+        },
+        error:function(){
+          alert("Error");
+        }
+      });
+    })
+  });  
 </script>

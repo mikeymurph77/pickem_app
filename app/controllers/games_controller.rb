@@ -25,13 +25,14 @@ class GamesController < ApplicationController
   end
 
   def show_games_week
-    week_number = params[:week_number]
-    week = Week.find_by_week_number(week_number).id
-    @games = Game.where(week_game_id: week)
+    p "JKHDHJKHKD"
+    p week_number = params[:week_number]
+    p "UIYIYYI"
+    p week = Week.find_by_week_number(week_number).week_number
+    p "BNMBNBMNB"
+    p @games = Game.where(week_game_id: week)
 
-    respond_to do |format|
-      format.js
-    end
+    render partial: "games_this_week"
   end
 
   private
