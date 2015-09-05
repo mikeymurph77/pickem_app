@@ -1,8 +1,8 @@
 <% @games.each do |game| %>
   <div>
     <div class="game_matchup" data-game-id=<%= game.id %>>
-      <% pick_away = Pick.find_by(game_id: game.id, picked_team_id: game.away_team_id, user_id: current_user.id) %>
-      <% pick_home = Pick.find_by(game_id: game.id, picked_team_id: game.home_team_id, user_id: current_user.id) %>
+      <% pick_away = Result.find_by(game_id: game.id, winner: game.away_team_id) %>
+      <% pick_home = Result.find_by(game_id: game.id, winner: game.home_team_id) %>
       <span class="pick_team <%= 'selected_team_class' if pick_away.present? %>" id="away_team_pick" data-team-id=<%= game.away_team_id %>>
         <%= Team.find(game.away_team_id).name %>  
       </span>
@@ -10,6 +10,7 @@
       <span class="pick_team <%= 'selected_team_class' if pick_home.present? %>" id="home_team_pick" data-team-id=<%= game.home_team_id %>>
         <%= Team.find(game.home_team_id).name %> 
       </span>
+      <span class="tie">Tie</span>
       <span class="clear_pick">X</span>
     </div>
     <div class="game_details">
@@ -22,6 +23,7 @@
 <script>
   $(".pick_team").click(function(){
       var selectedTeam = $(this).data("team-id"),
+          losingTeam = $(this).siblings(".pick_team").data("team-id"),
           gameMatchup = $(this).parent(".game_matchup"),
           gameMatchup_id = gameMatchup.data("game-id")
           game_details = gameMatchup.siblings(".game_details"),
@@ -31,12 +33,11 @@
 
       $.ajax({
         type: "POST",
-        url: "picks/set_game_pick.json",
+        url: "results/set_game_results.json",
         data: {
           selected_team: selectedTeam,
-          game_matchup_id: gameMatchup_id,
-          game_start_time: gameStartTime,
-          time_now: timeNow
+          losing_team: losingTeam,
+          game_matchup_id: gameMatchup_id
         },
         success: function(json){
           var game = $(".game_matchup[data-game-id=" + json.game + "]"),
@@ -51,6 +52,11 @@
       });  
   });
 
+  $(".tie").click(function(){
+    $(this).css("color", "red");
+    
+  });
+
   $(".clear_pick").click(function(){
     var gameMatchup = $(this).parent(".game_matchup"),
         gameMatchup_id = gameMatchup.data("game-id")
@@ -61,11 +67,9 @@
 
     $.ajax({
         type: "POST",
-        url: "picks/clear_pick.json",
+        url: "results/clear_result.json",
         data: {
-          game_matchup_id: gameMatchup_id,
-          game_start_time: gameStartTime,
-          time_now: timeNow
+          game_matchup_id: gameMatchup_id
         },
         success: function(json){
           var game = $(".game_matchup[data-game-id=" + json.game + "]")

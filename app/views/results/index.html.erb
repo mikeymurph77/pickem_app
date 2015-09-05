@@ -1,5 +1,7 @@
+<h2>RESULTS:</h2>
+<h3>Admin view only......</h3>
+
 <% @weeks.each do |week| %>
-  <% p week.id %>
   <span class="week_number_select" data-week=<%= week.id %>><%= week.week_number %></span>
 <% end %>
 
@@ -10,14 +12,14 @@
 <h2>Week <%= @week.week_number %> Games:</h2>
 
 <div id="games_this_week">
-  <%= render partial: "games_this_week" %>
+  <%= render partial: "results_per_week" %>
 </div>
 
 <script>
   $( document ).ready(function() {
     $(".week_number_select").click(function(){
       var week = $(this).data("week"),
-          display = "picks";
+          display = "results";
 
       $.ajax({
         type: "GET",

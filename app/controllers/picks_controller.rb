@@ -34,13 +34,5 @@ class PicksController < ApplicationController
       #Game Already started
       #Ajax Error function will be triggered
     end
-
-
-    # game = params[:game_matchup_id]
-
-    # pick = Pick.find_by(game_id: game, user_id: current_user.id)
-    # pick.destroy
-
-    # render json: { game: game }
   end
 end

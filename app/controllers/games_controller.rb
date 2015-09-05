@@ -1,10 +1,9 @@
 class GamesController < ApplicationController
   def index
     @weeks = Week.all
-    #will make a current_week method... this is temp.
     today = Date.today
     current_week = today.beginning_of_week(start_day = :tuesday)
-    @week = Week.where(week_start: current_week).first.week_number
+    @week = Week.where(week_start: current_week).first
     @games = Game.where(week_game_id: @week).order(:gametime_start)
   end 
 
@@ -25,14 +24,16 @@ class GamesController < ApplicationController
   end
 
   def show_games_week
-    p "JKHDHJKHKD"
-    p week_number = params[:week_number]
-    p "UIYIYYI"
-    p week = Week.find_by_week_number(week_number).week_number
-    p "BNMBNBMNB"
-    p @games = Game.where(week_game_id: week)
+    week_number = params[:week_number]
+    week = Week.find(week_number)
+    @games = Game.where(week_game_id: week.id)
 
-    render partial: "games_this_week"
+    case params[:display] 
+    when "picks"
+      render partial: "games_this_week"
+    when "results"
+      render partial: "results/results_per_week"
+    end  
   end
 
   private

@@ -13,9 +13,13 @@ Rails.application.routes.draw do
         get "show_games_week"
       end  
     end 
-    resources :weeks, only: [:index, :show, :new, :create, :edit, :update]
+    resources :weeks
+    resources :results
     post "picks/set_game_pick"
     post "picks/clear_pick"
+
+    post "results/set_game_results"
+    post "results/clear_result"
   end
 
   root "sessions#new"
