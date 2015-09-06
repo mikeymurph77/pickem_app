@@ -26,6 +26,17 @@ class ResultsController < ApplicationController
       render json: { game: game_id, team: winning_team }
   end
 
+  def tie_results
+    game_id = params[:game_matchup_id]
+    result = Result.find_by(game_id: game_id)
+
+    if result.present?
+      result.destroy
+    end
+
+    render json: { game: game_id }
+  end
+
   def update_record(game_id)
     result = Result.find_by(game_id: game_id)
     game_picks = Pick.where(game_id: result.game_id)

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     post "results/set_game_results"
     post "results/clear_result"
+    post "results/tie_results"
   end
 
   root "sessions#new"

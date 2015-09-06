@@ -53,7 +53,28 @@
   });
 
   $(".tie").click(function(){
-    $(this).css("color", "red");
+    var gameMatchup = $(this).parent(".game_matchup").data("game-id");
+
+    $.ajax({
+        type: "POST",
+        url: "results/tie_results.json",
+        data: {
+          game_matchup_id: gameMatchup
+        },
+        success: function(json){
+          console.log("foo");
+
+          var game = $(".game_matchup[data-game-id=" + json.game + "]"),
+              teams = game.children(".pick_team"),
+              tie = game.children(".tie");
+
+          teams.removeClass("selected_team_class");
+          tie.addClass("selected_team_class");    
+        },
+        error:function(){
+          alert("Sorry, your pick is void. The game already started");
+        }
+      });  
     
   });
 
