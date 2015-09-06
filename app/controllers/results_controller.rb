@@ -29,6 +29,27 @@ class ResultsController < ApplicationController
   def update_record(game_id)
     result = Result.find_by(game_id: game_id)
     game_picks = Pick.where(game_id: result.game_id)
+
+    game_picks.each do |pick|
+      record = Record.find_by(user_id: pick.user_id)
+
+      if pick.picked_team_id == result.winner
+        if record.nil?
+          Record.create(user_id: pick.user_id, wins: 1, losses: 0)
+        else
+          new_win_count = record.wins + 1
+          record.update_attribute(:wins, new_win_count)
+        end
+      else
+        if record.nil?
+          Record.create(user_id: pick.user_id, wins: 0, losses: 1)
+        else
+          record
+          new_loss_count = record.losses.to_i + 1
+          record.update_attribute(:losses, new_loss_count)
+        end
+      end
+    end
   end
 
   def clear_result
