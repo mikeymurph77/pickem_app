@@ -31,8 +31,16 @@ class ResultsController < ApplicationController
     result = Result.find_by(game_id: game_id)
 
     if result.present?
-      result.destroy
+      result.update_attributes({
+                                tie: true,
+                                winner: nil,
+                                loser: nil
+                              })
+    else
+      Result.create(game_id: game_id, tie: true)  
     end
+
+    #NEED TO UPDATE USERS RECORD TO SUBTRACT GAME
 
     render json: { game: game_id }
   end
