@@ -19,7 +19,7 @@ class ResultsController < ApplicationController
         result = Result.create(game_id: game_id, winner: winning_team, loser: losing_team)
         result_type = "new"
       else
-        result = result.update_attributes(winner: winning_team, loser: losing_team)
+        result = result.update_attributes(winner: winning_team, loser: losing_team, tie: false)
         result_type = "update"
       end
 

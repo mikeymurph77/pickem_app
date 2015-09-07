@@ -45,6 +45,7 @@
               team = game.find(".pick_team[data-team-id=" + json.team + "]");
 
           team.siblings(".pick_team").removeClass("selected_team_class");
+          team.siblings(".tie").removeClass("selected_team_class");
           team.addClass("selected_team_class");    
         },
         error:function(){
@@ -54,29 +55,30 @@
   });
 
   $(".tie").click(function(){
-    var gameMatchup = $(this).parent(".game_matchup").data("game-id");
+    var gameMatchup = $(this).parent(".game_matchup").data("game-id"),
+        tieCheck = confirm("Are you 100% sure this game is a tie?");
+    if(tieCheck == true){    
+      $.ajax({
+          type: "POST",
+          url: "results/tie_results.json",
+          data: {
+            game_matchup_id: gameMatchup
+          },
+          success: function(json){
+            console.log("foo");
 
-    $.ajax({
-        type: "POST",
-        url: "results/tie_results.json",
-        data: {
-          game_matchup_id: gameMatchup
-        },
-        success: function(json){
-          console.log("foo");
+            var game = $(".game_matchup[data-game-id=" + json.game + "]"),
+                teams = game.children(".pick_team"),
+                tie = game.children(".tie");
 
-          var game = $(".game_matchup[data-game-id=" + json.game + "]"),
-              teams = game.children(".pick_team"),
-              tie = game.children(".tie");
-
-          teams.removeClass("selected_team_class");
-          tie.addClass("selected_team_class");    
-        },
-        error:function(){
-          alert("Sorry, your pick is void. The game already started");
-        }
-      });  
-    
+            teams.removeClass("selected_team_class pick_team");
+            tie.addClass("selected_team_class");    
+          },
+          error:function(){
+            alert("Sorry, your pick is void. The game already started");
+          }
+        });
+    }
   });
 
   $(".clear_pick").click(function(){
