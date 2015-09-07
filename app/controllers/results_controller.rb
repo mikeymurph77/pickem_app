@@ -17,11 +17,13 @@ class ResultsController < ApplicationController
 
       if result.nil?
         result = Result.create(game_id: game_id, winner: winning_team, loser: losing_team)
+        result_type = "new"
       else
         result = result.update_attributes(winner: winning_team, loser: losing_team)
+        result_type = "update"
       end
 
-      update_record(game_id)
+      update_record(game_id, result_type)
 
       render json: { game: game_id, team: winning_team }
   end
@@ -45,7 +47,7 @@ class ResultsController < ApplicationController
     render json: { game: game_id }
   end
 
-  def update_record(game_id)
+  def update_record(game_id, result_type)
     result = Result.find_by(game_id: game_id)
     game_picks = Pick.where(game_id: result.game_id)
 
@@ -56,16 +58,27 @@ class ResultsController < ApplicationController
         if record.nil?
           Record.create(user_id: pick.user_id, wins: 1, losses: 0)
         else
-          new_win_count = record.wins + 1
-          record.update_attribute(:wins, new_win_count)
+          if result_type == "new"
+            new_win_count = record.wins + 1
+            record.update_attribute(:wins, new_win_count)
+          elsif result_type == "update"
+            new_win_count = record.wins + 1
+            new_loss_count = record.losses.to_i - 1
+            record.update_attributes({wins: new_win_count, losses: new_loss_count})
+          end  
         end
       else
         if record.nil?
           Record.create(user_id: pick.user_id, wins: 0, losses: 1)
         else
-          record
-          new_loss_count = record.losses.to_i + 1
-          record.update_attribute(:losses, new_loss_count)
+          if result_type == "new"
+            new_loss_count = record.losses.to_i + 1
+            record.update_attribute(:losses, new_loss_count)
+          elsif result_type == "update"
+            new_win_count = record.wins - 1
+            new_loss_count = record.losses.to_i + 1
+            record.update_attributes({wins: new_win_count, losses: new_loss_count})
+          end 
         end
       end
     end
