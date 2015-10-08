@@ -18,7 +18,7 @@ class PicksController < ApplicationController
     else
       #Game Already started
       #Ajax Error function will be triggered
-    end  
+    end
   end
 
   def clear_pick

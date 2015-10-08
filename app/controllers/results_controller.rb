@@ -39,7 +39,7 @@ class ResultsController < ApplicationController
                                 loser: nil
                               })
     else
-      Result.create(game_id: game_id, tie: true)  
+      Result.create(game_id: game_id, tie: true)
     end
 
     #NEED TO UPDATE USERS RECORD TO SUBTRACT GAME
@@ -65,7 +65,7 @@ class ResultsController < ApplicationController
             new_win_count = record.wins + 1
             new_loss_count = record.losses.to_i - 1
             record.update_attributes({wins: new_win_count, losses: new_loss_count})
-          end  
+          end
         end
       else
         if record.nil?
@@ -78,7 +78,7 @@ class ResultsController < ApplicationController
             new_win_count = record.wins - 1
             new_loss_count = record.losses.to_i + 1
             record.update_attributes({wins: new_win_count, losses: new_loss_count})
-          end 
+          end
         end
       end
     end
